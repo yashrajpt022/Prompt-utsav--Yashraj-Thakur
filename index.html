@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ravindra Institute of Engineering</title>
+<style>
+  :root{
+    --bg: #0A1628;
+    --panel: #10203A;
+    --panel-2: #14294A;
+    --line: #2E5C8A;
+    --paper: #F4EFE4;
+    --paper-dim: #B9C4D4;
+    --amber: #E8A33D;
+    --cyan: #7FD1D9;
+    --radius: 2px;
+    --mono: 'Courier New', ui-monospace, monospace;
+    --sans: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ animation-duration:0.001s !important; transition-duration:0.001s !important; }
+  }
+
+  body{
+    margin:0;
+    background:
+      linear-gradient(var(--line) 1px, transparent 1px) 0 0 / 40px 40px,
+      linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / 40px 40px,
+      var(--bg);
+    background-blend-mode: overlay, overlay, normal;
+    color: var(--paper);
+    font-family: var(--sans);
+    line-height:1.5;
+  }
+
+  a{ color:inherit; }
+  ::selection{ background:var(--amber); color:#0A1628; }
+
+  :focus-visible{
+    outline: 2px solid var(--amber);
+    outline-offset: 3px;
+  }
+
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 28px; }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:100;
+    background:rgba(10,22,40,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    padding-top:16px; padding-bottom:16px;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-weight:700; font-size:1.05rem; letter-spacing:0.2px;
+    text-decoration:none; color:var(--paper);
+  }
+  .brand-mark{
+    width:30px; height:30px; flex:none;
+  }
+  .navlinks{
+    display:flex; gap:28px; list-style:none; margin:0; padding:0;
+  }
+  .navlinks a{
+    text-decoration:none; color:var(--paper-dim); font-size:0.95rem;
+    padding:6px 2px; border-bottom:1px solid transparent;
+    transition:color .18s ease, border-color .18s ease;
+  }
+  .navlinks a:hover{ color:var(--paper); border-color:var(--amber); }
+
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--amber); color:#1a1200;
+    border:none; padding:11px 20px;
+    font-size:0.92rem; font-weight:700; cursor:pointer;
+    border-radius:var(--radius);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 18px rgba(232,163,61,0.28); }
+  .btn:active{ transform:translateY(0); }
+  .btn-ghost{
+    background:transparent; color:var(--paper); border:1px solid var(--line);
+  }
+  .btn-ghost:hover{ border-color:var(--amber); color:var(--amber); box-shadow:none; }
+
+  .navToggle{ display:none; background:none; border:1px solid var(--line); color:var(--paper); padding:8px 10px; border-radius:var(--radius); cursor:pointer; }
+
+  @media (max-width:860px){
+    .navlinks{
+      position:absolute; top:100%; left:0; right:0;
+      background:var(--panel); border-bottom:1px solid var(--line);
+      flex-direction:column; padding:18px 28px; gap:14px;
+      display:none;
+    }
+    .navlinks.open{ display:flex; }
+    .navToggle{ display:inline-block; }
+    header .btn-primary-nav{ display:none; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:96px 0 80px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.15fr 0.85fr; gap:60px; align-items:start;
+  }
+  @media (max-width:900px){ .hero-grid{ grid-template-columns:1fr; } }
+
+  .kicker{
+    font-family:var(--mono); font-size:0.82rem; color:var(--cyan);
+    margin:0 0 18px;
+  }
+  h1.headline{
+    font-size:clamp(2.1rem, 4.4vw, 3.4rem);
+    line-height:1.08; margin:0 0 22px; font-weight:700;
+    max-width:16ch;
+  }
+  .lede{
+    font-size:1.08rem; color:var(--paper-dim); max-width:52ch; margin:0 0 34px;
+  }
+  .hero-ctas{ display:flex; gap:14px; flex-wrap:wrap; }
+
+  .diagram{
+    border:1px solid var(--line); background:var(--panel);
+    padding:22px; border-radius:var(--radius);
+    position:relative;
+  }
+  .diagram::before{
+    content:"FIG. 01 — ADMISSION FLOW";
+    position:absolute; top:-11px; left:16px; background:var(--bg);
+    padding:0 8px; font-family:var(--mono); font-size:0.68rem; color:var(--cyan);
+    letter-spacing:0.5px;
+  }
+  .flow-step{
+    display:flex; gap:14px; padding:12px 0; border-bottom:1px dashed rgba(127,209,217,0.25);
+    align-items:flex-start;
+  }
+  .flow-step:last-child{ border-bottom:none; }
+  .flow-num{
+    font-family:var(--mono); color:var(--amber); font-size:0.85rem; flex:none; padding-top:2px;
+  }
+  .flow-text b{ display:block; font-size:0.95rem; margin-bottom:2px; }
+  .flow-text span{ font-size:0.85rem; color:var(--paper-dim); }
+
+  /* ---------- STATS ---------- */
+  .stats{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line);
+    margin-top:64px;
+  }
+  @media (max-width:700px){ .stats{ grid-template-columns:repeat(2,1fr); } }
+  .stat{
+    background:var(--panel); padding:26px 20px; text-align:left;
+  }
+  .stat-num{
+    font-family:var(--mono); font-size:2rem; color:var(--amber); font-weight:700;
+    display:block;
+  }
+  .stat-label{ font-size:0.85rem; color:var(--paper-dim); margin-top:6px; }
+
+  /* ---------- SECTION SHARED ---------- */
+  section{ padding:84px 0; border-bottom:1px solid var(--line); }
+  .section-head{ max-width:60ch; margin-bottom:44px; }
+  .section-head .kicker{ margin-bottom:12px; }
+  h2{ font-size:clamp(1.6rem,3vw,2.2rem); margin:0 0 12px; }
+  .section-head p{ color:var(--paper-dim); margin:0; }
+
+  /* ---------- TABS (Departments) ---------- */
+  .tabs-shell{
+    border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;
+  }
+  .tablist{
+    display:flex; flex-wrap:wrap; background:var(--panel); border-bottom:1px solid var(--line);
+  }
+  .tab{
+    background:none; border:none; color:var(--paper-dim); font-family:var(--sans);
+    padding:16px 22px; font-size:0.94rem; cursor:pointer; border-right:1px solid var(--line);
+    position:relative; transition:color .15s ease;
+  }
+  .tab:hover{ color:var(--paper); }
+  .tab[aria-selected="true"]{ color:var(--amber); background:var(--panel-2); }
+  .tab[aria-selected="true"]::after{
+    content:""; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:var(--amber);
+  }
+  .tabpanels{ background:var(--panel-2); padding:36px; }
+  .tabpanel{ display:none; }
+  .tabpanel.active{ display:grid; grid-template-columns:1.3fr 1fr; gap:36px; }
+  @media (max-width:760px){ .tabpanel.active{ grid-template-columns:1fr; } }
+  .tabpanel h3{ margin:0 0 10px; font-size:1.3rem; }
+  .tabpanel p{ color:var(--paper-dim); margin:0 0 18px; }
+  .spec-list{ list-style:none; margin:0; padding:0; font-family:var(--mono); font-size:0.86rem; }
+  .spec-list li{ display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px dashed rgba(127,209,217,0.2); color:var(--paper-dim); }
+  .spec-list li b{ color:var(--paper); font-family:var(--sans); font-weight:600; }
+  .side-card{ background:var(--panel); border:1px solid var(--line); padding:20px; }
+  .side-card h4{ margin:0 0 10px; font-size:0.9rem; color:var(--cyan); }
+
+  /* ---------- FILTERABLE GRID (labs) ---------- */
+  .filter-bar{
+    display:flex; gap:10px; flex-wrap:wrap; margin-bottom:28px;
+  }
+  .chip{
+    background:transparent; border:1px solid var(--line); color:var(--paper-dim);
+    padding:9px 16px; border-radius:999px; font-size:0.86rem; cursor:pointer;
+    transition:all .15s ease;
+  }
+  .chip:hover{ color:var(--paper); border-color:var(--cyan); }
+  .chip.active{ background:var(--cyan); color:#062226; border-color:var(--cyan); font-weight:700; }
+
+  .lab-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:20px;
+  }
+  @media (max-width:900px){ .lab-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:600px){ .lab-grid{ grid-template-columns:1fr; } }
+
+  .lab-card{
+    border:1px solid var(--line); padding:22px; background:var(--panel);
+    transition: opacity .25s ease, transform .25s ease;
+  }
+  .lab-card.hidden{ display:none; }
+  .lab-tag{ font-family:var(--mono); font-size:0.72rem; color:var(--amber); }
+  .lab-card h4{ margin:10px 0 8px; font-size:1.05rem; }
+  .lab-card p{ margin:0; color:var(--paper-dim); font-size:0.9rem; }
+  .empty-note{ color:var(--paper-dim); font-family:var(--mono); font-size:0.9rem; padding:20px 0; display:none; }
+
+  /* ---------- FAQ ACCORDION ---------- */
+  .accordion{ border-top:1px solid var(--line); }
+  .acc-item{ border-bottom:1px solid var(--line); }
+  .acc-trigger{
+    width:100%; text-align:left; background:none; border:none; color:var(--paper);
+    font-family:var(--sans); font-size:1rem; padding:20px 4px; cursor:pointer;
+    display:flex; justify-content:space-between; align-items:center; gap:20px;
+  }
+  .acc-trigger:hover{ color:var(--amber); }
+  .acc-icon{ font-family:var(--mono); color:var(--cyan); flex:none; transition:transform .2s ease; }
+  .acc-trigger[aria-expanded="true"] .acc-icon{ transform:rotate(45deg); }
+  .acc-panel{
+    max-height:0; overflow:hidden; transition:max-height .25s ease;
+  }
+  .acc-panel-inner{ padding:0 4px 20px; color:var(--paper-dim); max-width:65ch; }
+
+  /* ---------- FOOTER / CONTACT ---------- */
+  footer{ padding:60px 0 40px; }
+  .foot-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:40px; }
+  @media (max-width:760px){ .foot-grid{ grid-template-columns:1fr; } }
+  footer h4{ font-size:0.85rem; color:var(--cyan); margin:0 0 14px; }
+  footer ul{ list-style:none; padding:0; margin:0; }
+  footer li{ margin-bottom:10px; }
+  footer a{ text-decoration:none; color:var(--paper-dim); font-size:0.92rem; }
+  footer a:hover{ color:var(--amber); }
+  .foot-bottom{
+    margin-top:50px; padding-top:24px; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;
+    font-size:0.82rem; color:var(--paper-dim); font-family:var(--mono);
+  }
+
+  /* ---------- MODAL ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(6,12,22,0.72);
+    display:none; align-items:center; justify-content:center; padding:20px;
+    z-index:1000; opacity:0; transition:opacity .2s ease;
+  }
+  .modal-overlay.show{ display:flex; }
+  .modal-overlay.visible{ opacity:1; }
+  .modal{
+    background:var(--panel); border:1px solid var(--line); max-width:460px; width:100%;
+    padding:32px; position:relative; transform:translateY(14px); transition:transform .22s ease;
+  }
+  .modal-overlay.visible .modal{ transform:translateY(0); }
+  .modal h3{ margin:0 0 6px; font-size:1.3rem; }
+  .modal p.sub{ color:var(--paper-dim); margin:0 0 24px; font-size:0.92rem; }
+  .modal-close{
+    position:absolute; top:16px; right:16px; background:none; border:none;
+    color:var(--paper-dim); font-size:1.3rem; cursor:pointer; line-height:1;
+  }
+  .modal-close:hover{ color:var(--amber); }
+  .field{ margin-bottom:16px; }
+  .field label{ display:block; font-size:0.84rem; color:var(--paper-dim); margin-bottom:6px; }
+  .field input, .field select{
+    width:100%; background:var(--bg); border:1px solid var(--line); color:var(--paper);
+    padding:10px 12px; font-size:0.94rem; font-family:var(--sans); border-radius:var(--radius);
+  }
+  .field input:focus, .field select:focus{ border-color:var(--amber); }
+  .modal-success{
+    display:none; text-align:center; padding:20px 0;
+  }
+  .modal-success.show{ display:block; }
+  .modal-success .check{ font-size:2.4rem; color:var(--cyan); }
+
+  /* ---------- SCROLL REVEAL (blueprint wipe) ---------- */
+  .reveal{
+    opacity:0;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0.85s cubic-bezier(.22,.61,.36,1), opacity 0.4s ease;
+  }
+  .reveal.revealed{
+    opacity:1;
+    clip-path: inset(0 0 0 0);
+  }
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity:1; clip-path:none; transition:none; }
+  }
+
+  /* ---------- FLOW LINE DRAW-IN ---------- */
+  .flow-line{
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    transition: stroke-dashoffset 1.3s cubic-bezier(.22,.61,.36,1);
+  }
+  .diagram.drawn .flow-line{ stroke-dashoffset: 0; }
+  @media (prefers-reduced-motion: reduce){
+    .flow-line{ stroke-dashoffset:0; transition:none; }
+  }
+
+  /* ---------- CARD TILT (technical inspection feel) ---------- */
+  .tilt{
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform 0.12s ease-out, border-color .15s ease;
+  }
+  .tilt:hover{ border-color: var(--cyan); }
+
+  /* ---------- CUSTOM CURSOR: crosshair target-lock ---------- */
+  @media (pointer: fine){
+    body{ cursor:none; }
+    a, button, input, select{ cursor:none; }
+  }
+  .cursor-dot, .cursor-ring{
+    position:fixed; top:0; left:0; pointer-events:none; z-index:9999;
+    transform:translate(-50%,-50%);
+  }
+  .cursor-dot{
+    width:5px; height:5px; border-radius:50%; background:var(--amber);
+  }
+  .cursor-ring{
+    width:30px; height:30px; border:1px solid var(--cyan);
+    border-radius:50%; opacity:0.7;
+    transition: width .18s ease, height .18s ease, border-color .18s ease, opacity .18s ease;
+  }
+  .cursor-ring::before, .cursor-ring::after{
+    content:""; position:absolute; background:var(--cyan);
+  }
+  .cursor-ring::before{ top:50%; left:-6px; width:4px; height:1px; transform:translateY(-50%); }
+  .cursor-ring::after{ top:-6px; left:50%; width:1px; height:4px; transform:translateX(-50%); }
+  .cursor-ring.hover{
+    width:46px; height:46px; border-color:var(--amber); opacity:1;
+  }
+  @media (pointer: coarse), (prefers-reduced-motion: reduce){
+    .cursor-dot, .cursor-ring{ display:none; }
+    body, a, button, input, select{ cursor:auto; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="#top" class="brand">
+      <svg class="brand-mark" viewBox="0 0 32 32" fill="none">
+        <rect x="2" y="2" width="28" height="28" stroke="#E8A33D" stroke-width="2"/>
+        <path d="M9 22V10L16 15L23 10V22" stroke="#7FD1D9" stroke-width="2" stroke-linejoin="round" fill="none"/>
+      </svg>
+      Ravindra Institute of Engineering
+    </a>
+    <button class="navToggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+    <ul class="navlinks" id="navlinks">
+      <li><a href="#departments">Departments</a></li>
+      <li><a href="#facilities">Facilities</a></li>
+      <li><a href="#faq">Admissions FAQ</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="btn btn-primary-nav" id="navApplyBtn">Apply Now</button>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero" style="border-bottom:1px solid var(--line);">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <p class="kicker">AICTE APPROVED · EST. 1994</p>
+          <h1 class="headline">Engineering education built like the structures our graduates design.</h1>
+          <p class="lede">Four undergraduate departments, industry-run labs, and a placement office that treats every student's file like a live project. Applications for the 2026–27 batch are open now.</p>
+          <div class="hero-ctas">
+            <button class="btn" id="heroApplyBtn">Start Application</button>
+            <a href="#departments" class="btn btn-ghost">View Departments</a>
+          </div>
+        </div>
+        <div class="diagram" id="flowDiagram" style="position:relative;">
+          <svg width="16" height="100%" viewBox="0 0 16 400" preserveAspectRatio="none" style="position:absolute; left:20px; top:20px; height:calc(100% - 40px); overflow:visible;">
+            <path class="flow-line" d="M8 10 L8 390" stroke="var(--cyan)" stroke-width="1.5" fill="none"/>
+          </svg>
+          <div class="flow-step">
+            <span class="flow-num">01</span>
+            <div class="flow-text"><b>Submit CET / JEE score</b><span>Upload scorecard and category documents.</span></div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-num">02</span>
+            <div class="flow-text"><b>Choose department preference</b><span>Rank up to four branches by priority.</span></div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-num">03</span>
+            <div class="flow-text"><b>Seat allotment</b><span>Merit-based rounds, results emailed directly.</span></div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-num">04</span>
+            <div class="flow-text"><b>Confirm & report</b><span>Pay confirmation fee, report to campus.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><span class="stat-num" data-target="4200">0</span><span class="stat-label">Enrolled students</span></div>
+        <div class="stat"><span class="stat-num" data-target="91" data-suffix="%">0</span><span class="stat-label">Placement rate, 2025</span></div>
+        <div class="stat"><span class="stat-num" data-target="146">0</span><span class="stat-label">Full-time faculty</span></div>
+        <div class="stat"><span class="stat-num" data-target="38">0</span><span class="stat-label">Active labs</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="departments">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">PROGRAMS</p>
+        <h2>Four departments, one admission process</h2>
+        <p>Each branch runs its own labs and project sequence, but shares the same first-year foundation courses.</p>
+      </div>
+
+      <div class="tabs-shell reveal">
+        <div class="tablist" role="tablist" aria-label="Departments">
+          <button class="tab" role="tab" aria-selected="true" aria-controls="panel-mech" id="tab-mech">Mechanical</button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="panel-civil" id="tab-civil">Civil</button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="panel-comp" id="tab-comp">Computer</button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="panel-elec" id="tab-elec">Electrical</button>
+        </div>
+        <div class="tabpanels">
+          <div class="tabpanel active" id="panel-mech" role="tabpanel" aria-labelledby="tab-mech">
+            <div>
+              <h3>Mechanical Engineering</h3>
+              <p>Thermodynamics, manufacturing, and design — with a final-year capstone built and tested on campus, not just simulated.</p>
+              <ul class="spec-list">
+                <li><b>Intake</b><span>180 seats</span></li>
+                <li><b>Core labs</b><span>CAD/CAM, Fluid Mechanics, Thermal</span></li>
+                <li><b>Capstone</b><span>Physical prototype required</span></li>
+              </ul>
+            </div>
+            <div class="side-card">
+              <h4>PLACEMENT PARTNERS</h4>
+              <p style="color:var(--paper-dim); font-size:0.9rem; margin:0;">Tata Motors, Bajaj Auto, L&T, Godrej Appliances</p>
+            </div>
+          </div>
+          <div class="tabpanel" id="panel-civil" role="tabpanel" aria-labelledby="tab-civil">
+            <div>
+              <h3>Civil Engineering</h3>
+              <p>Structural analysis and site work from year two onward, including a semester embedded with a live construction contractor.</p>
+              <ul class="spec-list">
+                <li><b>Intake</b><span>120 seats</span></li>
+                <li><b>Core labs</b><span>Structural, Geotech, Surveying</span></li>
+                <li><b>Capstone</b><span>Site-based design report</span></li>
+              </ul>
+            </div>
+            <div class="side-card">
+              <h4>PLACEMENT PARTNERS</h4>
+              <p style="color:var(--paper-dim); font-size:0.9rem; margin:0;">L&T Construction, Shapoorji Pallonji, PWD</p>
+            </div>
+          </div>
+          <div class="tabpanel" id="panel-comp" role="tabpanel" aria-labelledby="tab-comp">
+            <div>
+              <h3>Computer Engineering</h3>
+              <p>Systems-first curriculum — data structures and OS internals before frameworks, with a mandatory open-source contribution in year three.</p>
+              <ul class="spec-list">
+                <li><b>Intake</b><span>240 seats</span></li>
+                <li><b>Core labs</b><span>Systems, Networks, Data Engineering</span></li>
+                <li><b>Capstone</b><span>Deployed application, code reviewed</span></li>
+              </ul>
+            </div>
+            <div class="side-card">
+              <h4>PLACEMENT PARTNERS</h4>
+              <p style="color:var(--paper-dim); font-size:0.9rem; margin:0;">TCS, Persistent Systems, Zensar, local startups</p>
+            </div>
+          </div>
+          <div class="tabpanel" id="panel-elec" role="tabpanel" aria-labelledby="tab-elec">
+            <div>
+              <h3>Electrical Engineering</h3>
+              <p>Power systems and control theory grounded in the state grid's own substations, visited each semester as coursework.</p>
+              <ul class="spec-list">
+                <li><b>Intake</b><span>120 seats</span></li>
+                <li><b>Core labs</b><span>Power Systems, Control, Machines</span></li>
+                <li><b>Capstone</b><span>Grid-connected mini-project</span></li>
+              </ul>
+            </div>
+            <div class="side-card">
+              <h4>PLACEMENT PARTNERS</h4>
+              <p style="color:var(--paper-dim); font-size:0.9rem; margin:0;">MSEDCL, Siemens, ABB, Crompton Greaves</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="facilities">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">CAMPUS</p>
+        <h2>Labs & facilities</h2>
+        <p>Filter by department to see what you'd actually be working in, not a stock photo of it.</p>
+      </div>
+
+      <div class="filter-bar" id="filterBar">
+        <button class="chip active" data-filter="all">All</button>
+        <button class="chip" data-filter="mechanical">Mechanical</button>
+        <button class="chip" data-filter="civil">Civil</button>
+        <button class="chip" data-filter="computer">Computer</button>
+        <button class="chip" data-filter="electrical">Electrical</button>
+      </div>
+
+      <div class="lab-grid" id="labGrid">
+        <div class="lab-card tilt" data-category="mechanical">
+          <span class="lab-tag">MECHANICAL</span>
+          <h4>CAD/CAM & Robotics Lab</h4>
+          <p>Full CNC bay and a 6-axis robotic arm cell used from second year onward.</p>
+        </div>
+        <div class="lab-card tilt" data-category="mechanical">
+          <span class="lab-tag">MECHANICAL</span>
+          <h4>Thermal Engineering Lab</h4>
+          <p>IC engine test rigs and a refrigeration cycle bench for hands-on trials.</p>
+        </div>
+        <div class="lab-card tilt" data-category="civil">
+          <span class="lab-tag">CIVIL</span>
+          <h4>Structural Testing Lab</h4>
+          <p>Universal testing machine rated to 1000 kN for concrete and steel samples.</p>
+        </div>
+        <div class="lab-card tilt" data-category="civil">
+          <span class="lab-tag">CIVIL</span>
+          <h4>Geotechnical Lab</h4>
+          <p>Soil classification, compaction, and bearing capacity test setups.</p>
+        </div>
+        <div class="lab-card tilt" data-category="computer">
+          <span class="lab-tag">COMPUTER</span>
+          <h4>Systems & Networks Lab</h4>
+          <p>Bare-metal servers for OS coursework, plus a dedicated networking rack.</p>
+        </div>
+        <div class="lab-card tilt" data-category="computer">
+          <span class="lab-tag">COMPUTER</span>
+          <h4>Data Engineering Lab</h4>
+          <p>GPU workstations shared across final-year project teams.</p>
+        </div>
+        <div class="lab-card tilt" data-category="electrical">
+          <span class="lab-tag">ELECTRICAL</span>
+          <h4>Power Systems Lab</h4>
+          <p>Scaled substation model used for protection and relay coursework.</p>
+        </div>
+        <div class="lab-card tilt" data-category="electrical">
+          <span class="lab-tag">ELECTRICAL</span>
+          <h4>Control Systems Lab</h4>
+          <p>PID tuning rigs and a process control simulator bench.</p>
+        </div>
+      </div>
+      <p class="empty-note" id="emptyNote">No labs match this filter yet.</p>
+    </div>
+  </section>
+
+  <section id="faq" style="border-bottom:none;">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">ADMISSIONS</p>
+        <h2>Frequently asked questions</h2>
+        <p>The questions our counselling desk hears most during CAP season.</p>
+      </div>
+
+      <div class="accordion reveal" id="accordion">
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="true">
+            <span>Do you accept both MHT-CET and JEE Main scores?</span>
+            <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-panel">
+            <div class="acc-panel-inner">Yes. Maharashtra-domicile applicants are admitted through the state CAP rounds using MHT-CET, while All-India quota seats are filled using JEE Main percentile. You only need to submit one score during registration.</div>
+          </div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="false">
+            <span>Can I change my department preference after submitting?</span>
+            <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-panel">
+            <div class="acc-panel-inner">Preference order can be edited any time before the round-lock deadline shown on your CAP dashboard. Once a round locks, changes only take effect in the next round.</div>
+          </div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="false">
+            <span>Is hostel accommodation guaranteed for first-year students?</span>
+            <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-panel">
+            <div class="acc-panel-inner">First-year hostel seats are reserved on a first-confirmed, first-allotted basis after seat acceptance. We recommend confirming your seat within 48 hours of allotment to secure a room.</div>
+          </div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="false">
+            <span>What documents are needed at the time of reporting?</span>
+            <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-panel">
+            <div class="acc-panel-inner">Original scorecard, HSC marksheet, domicile and category certificates (if applicable), passport photos, and the confirmation fee receipt. A full checklist is emailed with your allotment letter.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h4>RAVINDRA INSTITUTE OF ENGINEERING</h4>
+        <p style="color:var(--paper-dim); font-size:0.92rem; max-width:38ch; margin:0 0 18px;">Plot 14, Engineering College Road, Nashik, Maharashtra 422013</p>
+        <button class="btn" id="footerApplyBtn">Apply Now</button>
+      </div>
+      <div>
+        <h4>ADMISSIONS</h4>
+        <ul>
+          <li><a href="#departments">Departments</a></li>
+          <li><a href="#facilities">Facilities</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>CONTACT</h4>
+        <ul>
+          <li><a href="mailto:admissions@rie.edu.in">admissions@rie.edu.in</a></li>
+          <li><a href="tel:+912532345678">+91 253 234 5678</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Ravindra Institute of Engineering</span>
+      <span>AICTE / DTE MAHARASHTRA APPROVED</span>
+    </div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close" id="modalClose" aria-label="Close">×</button>
+    <div id="formView">
+      <h3 id="modalTitle">Start your application</h3>
+      <p class="sub">We'll email you the full application link within one business day.</p>
+      <form id="admissionForm">
+        <div class="field">
+          <label for="fullName">Full name</label>
+          <input type="text" id="fullName" required>
+        </div>
+        <div class="field">
+          <label for="email">Email address</label>
+          <input type="email" id="email" required>
+        </div>
+        <div class="field">
+          <label for="deptPref">Preferred department</label>
+          <select id="deptPref">
+            <option>Mechanical Engineering</option>
+            <option>Civil Engineering</option>
+            <option>Computer Engineering</option>
+            <option>Electrical Engineering</option>
+          </select>
+        </div>
+        <button type="submit" class="btn" style="width:100%; justify-content:center;">Submit inquiry</button>
+      </form>
+    </div>
+    <div class="modal-success" id="successView">
+      <div class="check">✓</div>
+      <h3>Inquiry received</h3>
+      <p class="sub">Check your inbox shortly — we've sent next steps to your email.</p>
+      <button class="btn btn-ghost" id="modalDoneBtn" style="width:100%; justify-content:center;">Done</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ----- Mobile nav toggle ----- */
+  var navToggle = document.getElementById('navToggle');
+  var navlinks = document.getElementById('navlinks');
+  navToggle.addEventListener('click', function(){
+    var isOpen = navlinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  navlinks.querySelectorAll('a').forEach(function(link){
+    link.addEventListener('click', function(){
+      navlinks.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  /* ----- Stat counter animation (triggers when hero visible) ----- */
+  var counted = false;
+  var statEls = document.querySelectorAll('.stat-num');
+  function animateStats(){
+    if (counted) return;
+    counted = true;
+    statEls.forEach(function(el){
+      var target = parseInt(el.getAttribute('data-target'), 10);
+      var suffix = el.getAttribute('data-suffix') || '';
+      var duration = 1400;
+      var start = null;
+      function step(ts){
+        if (!start) start = ts;
+        var progress = Math.min((ts - start) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        var current = Math.floor(eased * target);
+        el.textContent = current + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = target + suffix;
+      }
+      requestAnimationFrame(step);
+    });
+  }
+  var heroSection = document.querySelector('.hero');
+  var flowDiagram = document.getElementById('flowDiagram');
+  if ('IntersectionObserver' in window){
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          animateStats();
+          if (flowDiagram) flowDiagram.classList.add('drawn');
+          obs.disconnect();
+        }
+      });
+    }, { threshold: 0.4 });
+    obs.observe(heroSection);
+  } else {
+    animateStats();
+    if (flowDiagram) flowDiagram.classList.add('drawn');
+  }
+
+  /* ----- Scroll reveal (blueprint wipe) ----- */
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && revealEls.length){
+    var revealObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('revealed');
+          revealObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+    revealEls.forEach(function(el){ revealObs.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('revealed'); });
+  }
+
+  /* ----- Custom cursor: crosshair target-lock ----- */
+  var fineCursor = window.matchMedia('(pointer: fine)').matches;
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (fineCursor && !reducedMotion){
+    var dot = document.createElement('div');
+    dot.className = 'cursor-dot';
+    var ring = document.createElement('div');
+    ring.className = 'cursor-ring';
+    document.body.appendChild(dot);
+    document.body.appendChild(ring);
+
+    var mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+    window.addEventListener('mousemove', function(e){
+      mouseX = e.clientX; mouseY = e.clientY;
+      dot.style.left = mouseX + 'px';
+      dot.style.top = mouseY + 'px';
+    });
+    function ringLoop(){
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+      ring.style.left = ringX + 'px';
+      ring.style.top = ringY + 'px';
+      requestAnimationFrame(ringLoop);
+    }
+    requestAnimationFrame(ringLoop);
+
+    var hoverTargets = document.querySelectorAll('a, button, .tab, .chip, .lab-card, .acc-trigger, input, select');
+    hoverTargets.forEach(function(el){
+      el.addEventListener('mouseenter', function(){ ring.classList.add('hover'); });
+      el.addEventListener('mouseleave', function(){ ring.classList.remove('hover'); });
+    });
+  }
+
+  /* ----- Card tilt (technical inspection feel) ----- */
+  if (!reducedMotion){
+    var tiltEls = document.querySelectorAll('.tilt');
+    tiltEls.forEach(function(el){
+      el.addEventListener('mousemove', function(e){
+        var rect = el.getBoundingClientRect();
+        var px = (e.clientX - rect.left) / rect.width - 0.5;
+        var py = (e.clientY - rect.top) / rect.height - 0.5;
+        var rotX = (py * -8).toFixed(2);
+        var rotY = (px * 8).toFixed(2);
+        el.style.transform = 'perspective(600px) rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg) translateY(-2px)';
+      });
+      el.addEventListener('mouseleave', function(){
+        el.style.transform = 'perspective(600px) rotateX(0deg) rotateY(0deg) translateY(0)';
+      });
+    });
+  }
+
+  /* ----- Tabs ----- */
+  var tabs = document.querySelectorAll('.tab');
+  var panels = document.querySelectorAll('.tabpanel');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      tabs.forEach(function(t){ t.setAttribute('aria-selected', 'false'); });
+      panels.forEach(function(p){ p.classList.remove('active'); });
+      tab.setAttribute('aria-selected', 'true');
+      var panel = document.getElementById(tab.getAttribute('aria-controls'));
+      panel.classList.add('active');
+    });
+  });
+
+  /* ----- Filterable lab grid ----- */
+  var chips = document.querySelectorAll('.chip');
+  var labCards = document.querySelectorAll('.lab-card');
+  var emptyNote = document.getElementById('emptyNote');
+  chips.forEach(function(chip){
+    chip.addEventListener('click', function(){
+      chips.forEach(function(c){ c.classList.remove('active'); });
+      chip.classList.add('active');
+      var filter = chip.getAttribute('data-filter');
+      var visibleCount = 0;
+      labCards.forEach(function(card){
+        var match = (filter === 'all' || card.getAttribute('data-category') === filter);
+        card.classList.toggle('hidden', !match);
+        if (match) visibleCount++;
+      });
+      emptyNote.style.display = visibleCount === 0 ? 'block' : 'none';
+    });
+  });
+
+  /* ----- Accordion (single-open) ----- */
+  var accItems = document.querySelectorAll('.acc-item');
+  function setPanelHeight(panel, expanded){
+    panel.style.maxHeight = expanded ? panel.scrollHeight + 'px' : '0px';
+  }
+  accItems.forEach(function(item){
+    var trigger = item.querySelector('.acc-trigger');
+    var panel = item.querySelector('.acc-panel');
+    var startExpanded = trigger.getAttribute('aria-expanded') === 'true';
+    setPanelHeight(panel, startExpanded);
+    trigger.addEventListener('click', function(){
+      var isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+      accItems.forEach(function(other){
+        var otherTrigger = other.querySelector('.acc-trigger');
+        var otherPanel = other.querySelector('.acc-panel');
+        otherTrigger.setAttribute('aria-expanded', 'false');
+        setPanelHeight(otherPanel, false);
+      });
+      if (!isExpanded){
+        trigger.setAttribute('aria-expanded', 'true');
+        setPanelHeight(panel, true);
+      }
+    });
+  });
+  window.addEventListener('resize', function(){
+    accItems.forEach(function(item){
+      var trigger = item.querySelector('.acc-trigger');
+      var panel = item.querySelector('.acc-panel');
+      if (trigger.getAttribute('aria-expanded') === 'true'){
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+      }
+    });
+  });
+
+  /* ----- Modal ----- */
+  var overlay = document.getElementById('modalOverlay');
+  var modalClose = document.getElementById('modalClose');
+  var openButtons = [
+    document.getElementById('heroApplyBtn'),
+    document.getElementById('navApplyBtn'),
+    document.getElementById('footerApplyBtn')
+  ];
+  var formView = document.getElementById('formView');
+  var successView = document.getElementById('successView');
+  var admissionForm = document.getElementById('admissionForm');
+  var modalDoneBtn = document.getElementById('modalDoneBtn');
+  var lastFocused = null;
+
+  function openModal(){
+    lastFocused = document.activeElement;
+    overlay.classList.add('show');
+    requestAnimationFrame(function(){ overlay.classList.add('visible'); });
+    document.body.style.overflow = 'hidden';
+    var firstField = document.getElementById('fullName');
+    if (firstField) firstField.focus();
+  }
+  function closeModal(){
+    overlay.classList.remove('visible');
+    document.body.style.overflow = '';
+    setTimeout(function(){
+      overlay.classList.remove('show');
+      formView.style.display = 'block';
+      successView.classList.remove('show');
+      admissionForm.reset();
+      if (lastFocused) lastFocused.focus();
+    }, 200);
+  }
+  openButtons.forEach(function(btn){
+    if (btn) btn.addEventListener('click', openModal);
+  });
+  modalClose.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e){
+    if (e.target === overlay) closeModal();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && overlay.classList.contains('show')) closeModal();
+  });
+
+  admissionForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    formView.style.display = 'none';
+    successView.classList.add('show');
+  });
+  modalDoneBtn.addEventListener('click', closeModal);
+
+})();
+</script>
+
+</body>
+</html>
